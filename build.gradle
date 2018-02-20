@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        maven { url "http://platform-acceleration-lab-maven.s3.amazonaws.com" }
+        jcenter()
+    }
+
+    dependencies {
+        classpath "io.pivotal.pal.assignments:assignments-plugin:1.2.6"
+    }
+}
+
+plugins {
+    id "java"
+    id "org.springframework.boot" version "1.5.4.RELEASE"
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+}
+
+apply plugin: "io.pivotal.pal.assignments.plugin"
+
+assignments {
+    apiUrl = "https://caddy.pal.pivotal.io"
+    emails = ["gopalanisamy@stubhub.com", "vichalasani@stubhub.com"]
+    cohortIdentifier = 349802173
+}
