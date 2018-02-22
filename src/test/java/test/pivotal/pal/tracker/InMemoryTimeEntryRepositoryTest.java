@@ -17,6 +17,8 @@ public class InMemoryTimeEntryRepositoryTest {
         TimeEntry createdTimeEntry = repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
 
         TimeEntry expected = new TimeEntry(1L, 123L, 456L, LocalDate.parse("2017-01-08"), 8);
+        System.out.println(expected.toString());
+        System.out.println(createdTimeEntry.toString());
         assertThat(createdTimeEntry).isEqualTo(expected);
 
         TimeEntry readEntry = repo.find(createdTimeEntry.getId());
@@ -26,7 +28,7 @@ public class InMemoryTimeEntryRepositoryTest {
     @Test
     public void find() throws Exception {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
-        repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
+        repo.create(new TimeEntry(1L,123L, 456L, LocalDate.parse("2017-01-08"), 8));
 
         TimeEntry expected = new TimeEntry(1L, 123L, 456L, LocalDate.parse("2017-01-08"), 8);
         TimeEntry readEntry = repo.find(1L);
@@ -36,8 +38,8 @@ public class InMemoryTimeEntryRepositoryTest {
     @Test
     public void list() throws Exception {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
-        repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
-        repo.create(new TimeEntry(789L, 654L, LocalDate.parse("2017-01-07"), 4));
+        repo.create(new TimeEntry(1L,123L, 456L, LocalDate.parse("2017-01-08"), 8));
+        repo.create(new TimeEntry(2L,789L, 654L, LocalDate.parse("2017-01-07"), 4));
 
         List<TimeEntry> expected = asList(
                 new TimeEntry(1L, 123L, 456L, LocalDate.parse("2017-01-08"), 8),
@@ -53,7 +55,7 @@ public class InMemoryTimeEntryRepositoryTest {
 
         TimeEntry updatedEntry = repo.update(
                 created.getId(),
-                new TimeEntry(321L, 654L, LocalDate.parse("2017-01-09"), 5));
+                new TimeEntry(1L,321L, 654L, LocalDate.parse("2017-01-09"), 5));
 
         TimeEntry expected = new TimeEntry(created.getId(), 321L, 654L, LocalDate.parse("2017-01-09"), 5);
         assertThat(updatedEntry).isEqualTo(expected);
