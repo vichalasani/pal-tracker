@@ -1,33 +1,46 @@
 package io.pivotal.pal.tracker;
 
+import org.springframework.boot.actuate.metrics.CounterService;
+import org.springframework.boot.actuate.metrics.GaugeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/time-entries")
 
 public class TimeEntryController {
+
+    private final CounterService counterService;
+    private final GaugeService gaugeService;
+
     TimeEntryRepository timeEntryRepository;
 
-    public TimeEntryController(TimeEntryRepository timeEntryRepository) {
+    public TimeEntryController(CounterService counterService, GaugeService gaugeService, TimeEntryRepository timeEntryRepository) {
+        this.counterService = counterService;
+        this.gaugeService = gaugeService;
         this.timeEntryRepository = timeEntryRepository;
     }
 
 
     @PostMapping
     public ResponseEntity<TimeEntry> create(@RequestBody TimeEntry timeEntry) {
-        return new ResponseEntity<>(timeEntryRepository.create(timeEntry), HttpStatus.CREATED);
+        TimeEntry created =  timeEntryRepository.create(timeEntry);
+        counterService.increment("TimeEntry.created");
+        gaugeService.submit("timeEntries.count",timeEntryRepository.list().size());
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TimeEntry> read(@PathVariable long id) {
-        if (timeEntryRepository.find(id) == null)
+        TimeEntry timerEntry = timeEntryRepository.find(id);
+        if ( timerEntry== null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return ResponseEntity.ok(timeEntryRepository.find(id));
+        }
+        counterService.increment("TimerEntry.read");
+        return ResponseEntity.ok(timerEntry);
     }
 
     @GetMapping
