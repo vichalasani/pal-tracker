@@ -42,7 +42,7 @@ public class TimeEntryApiTest {
 
         RestTemplateBuilder builder = new RestTemplateBuilder()
                 .rootUri("http://localhost:" + port)
-                .basicAuthorization("pal", "keepitsimple");
+                .basicAuthorization("user", "password");
 
         restTemplate = new TestRestTemplate(builder);
 

@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         auth
                 .inMemoryAuthentication()
-                .withUser("pal").password("keepitsimple").roles("USER");
+                .withUser("user").password("password").roles("USER");
 
     }
 }

@@ -26,7 +26,7 @@ public class WelcomeApiTest {
     public void setUp() throws Exception {
         RestTemplateBuilder builder = new RestTemplateBuilder()
                 .rootUri("http://localhost:" + port)
-                .basicAuthorization("pal", "keepitsimple");
+                .basicAuthorization("user", "password");
 
         restTemplate = new TestRestTemplate(builder);
     }
